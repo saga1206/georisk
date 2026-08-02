@@ -22,9 +22,21 @@ from apps.analysis.services import elevation_analysis, flood_analysis, populatio
 
 PROJECTED_SRID = 32646  # UTM zone 46N - accurate for Guwahati/Assam region
 
+# Approximate bounding box of the region we actually have reference data for
+# (matches the Overpass query used to import WaterBody records). Used only
+# to decide whether "0 water bodies found" means "genuinely no water nearby"
+# vs "we have no data for this area at all".
+DATA_COVERAGE_EXTENT = (91.60, 26.05, 91.85, 26.25)  # (minx, miny, maxx, maxy)
+
 
 class InvalidGeometryError(Exception):
     pass
+
+
+def _extent_overlaps_coverage(geom_extent: tuple) -> bool:
+    minx, miny, maxx, maxy = geom_extent
+    cov_minx, cov_miny, cov_maxx, cov_maxy = DATA_COVERAGE_EXTENT
+    return not (maxx < cov_minx or minx > cov_maxx or maxy < cov_miny or miny > cov_maxy)
 
 
 def validate_and_parse_geometry(geojson_geometry: dict) -> Polygon:
@@ -111,10 +123,13 @@ def run_full_analysis(geojson_geometry: dict) -> dict:
 
     mean_elevation_m = elevation_analysis.compute_mean_elevation(geojson_geometry)
 
+    has_water_data_coverage = _extent_overlaps_coverage(geom.extent)
+
     flood_risk, flood_breakdown = flood_analysis.compute_flood_risk(
         mean_elevation_m=mean_elevation_m,
         water_coverage_percent=water_data["water_coverage_percent"],
         water_bodies_intersecting=water_data["water_bodies_intersecting"],
+        has_water_data_coverage=has_water_data_coverage,
     )
 
     population_exposed = population_analysis.estimate_population_exposed(area_km2)

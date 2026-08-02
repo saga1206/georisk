@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Map Explorer — GeoRisk{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+<style>
+    #map { height: calc(100vh - 57px); width: 100%; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex h-[calc(100vh-57px)]">
+
+    <!-- LEFT PANEL -->
+    <aside class="w-72 bg-slate-900 border-r border-slate-800 p-4 space-y-6 overflow-y-auto">
+        <div>
+            <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Location Search</h2>
+            <input
+                id="location-search"
+                type="text"
+                placeholder="Search a place..."
+                class="w-full bg-slate-800 text-sm text-slate-100 rounded-md px-3 py-2 border border-slate-700 focus:outline-none focus:border-blue-500"
+            />
+        </div>
+
+        <div>
+            <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Layers</h2>
+            <div id="layer-controls" class="space-y-2 text-sm text-slate-300">
+                <p class="text-slate-500 text-xs">Loading layers...</p>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Drawing</h2>
+            <p class="text-xs text-slate-500">Use the polygon tool on the map (top-left) to draw an area, then it will auto-submit for analysis.</p>
+        </div>
+    </aside>
+
+    <!-- MAP -->
+    <div class="flex-1 relative">
+        <div id="map"></div>
+        <div id="loading-indicator" class="hidden absolute top-4 left-1/2 -translate-x-1/2 bg-slate-900/90 text-slate-100 text-sm px-4 py-2 rounded-md shadow-lg border border-slate-700">
+            Running spatial analysis...
+        </div>
+    </div>
+
+    <!-- RIGHT ANALYSIS PANEL -->
+    <aside class="w-80 bg-slate-900 border-l border-slate-800 p-4 overflow-y-auto">
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-4">Analysis Result</h2>
+        <div id="analysis-panel" class="space-y-3 text-sm">
+            <p class="text-slate-500">Draw a polygon on the map to run an analysis.</p>
+        </div>
+    </aside>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="{% static 'js/map.js' %}"></script>
+{% endblock %}

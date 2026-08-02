@@ -14,6 +14,7 @@ class Analysis(models.Model):
         ("LOW", "Low"),
         ("MODERATE", "Moderate"),
         ("HIGH", "High"),
+        ("INSUFFICIENT_DATA", "Insufficient Data"),
     ]
 
     STATUS_CHOICES = [

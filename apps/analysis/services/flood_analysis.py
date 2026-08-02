@@ -51,12 +51,31 @@ def compute_flood_risk(
     mean_elevation_m: float | None,
     water_coverage_percent: float,
     water_bodies_intersecting: int,
+    has_water_data_coverage: bool = True,
 ) -> tuple[str, dict]:
     """
     Returns:
         (risk_level, breakdown_dict) — breakdown_dict is stored in
         Analysis.result_metadata for auditability.
+
+    IMPORTANT: if elevation is unavailable (polygon outside the loaded DEM
+    tile) AND no water body data coverage exists for this region, the system
+    does NOT guess a risk level. Silently defaulting to a neutral/low score
+    would present "we don't know" as "it's safe", which is a dangerous
+    failure mode for a disaster-risk tool. In that case we return
+    "INSUFFICIENT_DATA" instead.
     """
+    if mean_elevation_m is None and not has_water_data_coverage:
+        breakdown = {
+            "methodology": "rule_based_weighted_v1",
+            "reason": (
+                "No elevation data (outside loaded DEM tile) and no water "
+                "body reference data available for this region. Risk cannot "
+                "be responsibly estimated."
+            ),
+        }
+        return "INSUFFICIENT_DATA", breakdown
+
     elevation_score = _elevation_score(mean_elevation_m)
     water_coverage_score = _water_coverage_score(water_coverage_percent)
     water_bodies_score = _water_bodies_count_score(water_bodies_intersecting)

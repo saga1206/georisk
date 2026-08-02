@@ -15,7 +15,7 @@ import rasterio
 from rasterio.mask import mask
 from django.conf import settings
 
-DEM_PATH = Path(settings.BASE_DIR) / "data" / "raw" / "elevation" / "N26E091.hgt"
+DEM_PATH = Path(settings.BASE_DIR) / "data" / "raw" / "elevation" / "assam_dem.tif"
 
 
 def compute_mean_elevation(geojson_geometry: dict) -> float | None:
