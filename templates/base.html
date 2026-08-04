@@ -12,10 +12,10 @@
     <nav class="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center justify-between">
         <span class="font-bold text-lg tracking-tight">GeoRisk</span>
         <div class="space-x-6 text-sm text-slate-300">
-            <a href="#" class="hover:text-white">Dashboard</a>
-            <a href="#" class="hover:text-white">Map Explorer</a>
-            <a href="#" class="hover:text-white">Analysis History</a>
-            <a href="#" class="hover:text-white">API Docs</a>
+            <a href="{% url 'home' %}" class="hover:text-white">Dashboard</a>
+            <a href="{% url 'map-explorer' %}" class="hover:text-white">Map Explorer</a>
+            <a href="{% url 'analysis-history' %}" class="hover:text-white">Analysis History</a>
+            <a href="{% url 'swagger-ui' %}" class="hover:text-white">API Docs</a>
         </div>
     </nav>
 

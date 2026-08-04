@@ -11,6 +11,7 @@ load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -19,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",  # GeoDjango
+    "drf_spectacular",
 
     # third-party
     "rest_framework",
@@ -92,4 +94,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "GeoRisk API",
+    "DESCRIPTION": "Geospatial disaster intelligence platform — spatial flood-risk analysis API.",
+    "VERSION": "1.0.0",
+}
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB — reasonable cap for GeoJSON polygon submissions
