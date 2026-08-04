@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard — GeoRisk{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto p-8">
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-bold">Dashboard</h1>
+            <p class="text-slate-400 text-sm mt-1">Overview of GeoRisk spatial analyses across Assam.</p>
+        </div>
+        <a href="{% url 'map-explorer' %}" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-md">
+            + New Analysis
+        </a>
+    </div>
+
+    <!-- Summary cards -->
+    <div id="summary-cards" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 animate-pulse h-24"></div>
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 animate-pulse h-24"></div>
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 animate-pulse h-24"></div>
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 animate-pulse h-24"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Risk breakdown -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-5">
+            <h2 class="text-sm font-semibold text-slate-300 mb-4">Risk Breakdown</h2>
+            <div id="risk-breakdown" class="space-y-3">
+                <p class="text-slate-500 text-sm">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Recent analyses -->
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-lg p-5">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-semibold text-slate-300">Recent Analyses</h2>
+                <a href="{% url 'analysis-history' %}" class="text-xs text-blue-400 hover:text-blue-300">View all →</a>
+            </div>
+            <div id="recent-analyses" class="space-y-2">
+                <p class="text-slate-500 text-sm">Loading...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
