@@ -11,4 +11,4 @@ node_modules/
 media/
 data/*.tif
 data/*.zip
-.vscode/
+.vscode/data/
