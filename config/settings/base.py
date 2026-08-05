@@ -108,3 +108,4 @@ SPECTACULAR_SETTINGS = {
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB — reasonable cap for GeoJSON polygon submissions
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+

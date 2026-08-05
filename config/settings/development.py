@@ -1,7 +1,11 @@
 from .base import *  # noqa
+import os
 
 DEBUG = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = os.environ.get(
+    "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1"
+).split(",")
+
 CSRF_COOKIE_HTTPONLY = False
 
 # GDAL/GEOS library paths — uncomment and set if Django can't auto-detect them
